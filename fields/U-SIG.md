@@ -56,8 +56,8 @@ by U-SIG-2 `B0-25`. Thus, U-SIG-1 `B20-25` are in `mask` and
 Dissectors should show these per spec, in a PHY version specific
 namespace (e.g. "U-SIG::EHT::PPDU-Type-And-Compression-Mode").
 
-For the only currently defined version (PHY Version identifier 0
-for EHT), the bits are shown in the following tables:
+For the currently defined versions (PHY Version identifier 0
+for EHT, 1 for UHR), the bits are shown in the following tables:
 
 ### EHT MU PPDU U-SIG contents
 
@@ -79,7 +79,7 @@ An EHT PPDU is an EHT MU PPDU if
 
 ### EHT TB PPDU U-SIG contents
 
-An EHT PPDU is a EHT TB PPDU if
+An EHT PPDU is an EHT TB PPDU if
 * the UL/DL field is set to 1 and the PPDU Type And Compression Mode field is set to 0.
 
 | **bits**         | **U-SIG reference** | **Content** |
@@ -89,5 +89,53 @@ An EHT PPDU is a EHT TB PPDU if
 | **`0x00001e00`** | `U-SIG-2 B3-B6`     | Spatial Reuse 1 |
 | **`0x0001e000`** | `U-SIG-2 B7-B10`    | Spatial Reuse 2 |
 | **`0x003e0000`** | `U-SIG-2 B11-B15`   | Disregard (...) |
+| **`0x03c00000`** | `U-SIG-2 B16-B19`   | CRC (for the bits `U-SIG-1 B0` to `U-SIG-2 B15`) |
+| **`0xfc000000`** | `U-SIG-2 B20-B25`   | Tail (must be 0) |
+
+### UHR MU PPDU U-SIG contents
+
+A UHR PPDU is a UHR MU PPDU if
+* the UL/DL field is set to 0 and the PPDU Type And Compression Mode field is set to 0, 1 or 2;
+* the UL/DL field is set to 1 and the PPDU Type And Compression Mode field is set to 1.
+
+| **bits**         | **U-SIG reference** | **Content** |
+| **`0x0000003f`** | `U-SIG-1 B20-B25`   | BSS Color 2 (under conditions, see spec) |
+| **`0x0000001f`** | `U-SIG-1 B20-B24`   | Disregard (if not BSS Color 2) |
+| **`0x00000020`** | `U-SIG-1 B25`       | Validate (must be 1, if not BSS Color 2) |
+| **`0x000000c0`** | `U-SIG-2 B0-B1`     | PPDU Type And Compression Mode |
+| **`0x00000100`** | `U-SIG-2 B2`        | Co-BF/Co-SR Indication |
+| **`0x00003e00`** | `U-SIG-2 B3-B7`     | Punctured Channel Information |
+| **`0x00004000`** | `U-SIG-2 B8`        | Validate (must be 1) |
+| **`0x00018000`** | `U-SIG-2 B9-B10`    | UHR-SIG MCS |
+| **`0x003e0000`** | `U-SIG-2 B11-B15`   | Number Of UHR-SIG Symbols |
+| **`0x03c00000`** | `U-SIG-2 B16-B19`   | CRC (for the bits `U-SIG-1 B0` to `U-SIG-2 B15`) |
+| **`0xfc000000`** | `U-SIG-2 B20-B25`   | Tail (must be 0) |
+
+### UHR TB PPDU U-SIG contents
+
+A UHR PPDU is a UHR TB PPDU if
+* the UL/DL field is set to 1 and the PPDU Type And Compression Mode field is set to 0.
+
+| **bits**         | **U-SIG reference** | **Content** |
+| **`0x0000003f`** | `U-SIG-1 B20-B25`   | Disregard (all ones) |
+| **`0x000000c0`** | `U-SIG-2 B0-B1`     | PPDU Type And Compression Mode |
+| **`0x00000100`** | `U-SIG-2 B2`        | Validate (must be 1) |
+| **`0x00001e00`** | `U-SIG-2 B3-B6`     | Spatial Reuse 1 |
+| **`0x0001e000`** | `U-SIG-2 B7-B10`    | Spatial Reuse 2 |
+| **`0x003e0000`** | `U-SIG-2 B11-B15`   | Disregard (...) |
+| **`0x03c00000`** | `U-SIG-2 B16-B19`   | CRC (for the bits `U-SIG-1 B0` to `U-SIG-2 B15`) |
+| **`0xfc000000`** | `U-SIG-2 B20-B25`   | Tail (must be 0) |
+
+### UHR ELR PPDU U-SIG contents
+
+A UHR PPDU is a UHR ELR PPDU if
+* the PPDU Type And Compression Mode field is set to 3.
+
+| **bits**         | **U-SIG reference** | **Content** |
+| **`0x0000001f`** | `U-SIG-1 B20-B24`   | Disregard |
+| **`0x00000020`** | `U-SIG-1 B25`       | Validate (must be 1) |
+| **`0x000000c0`** | `U-SIG-2 B0-B1`     | PPDU Type And Compression Mode |
+| **`0x0007ff00`** | `U-SIG-2 B2-B12`    | STA-ID |
+| **`0x00380000`** | `U-SIG-2 B13-B15`   | ELR Validate |
 | **`0x03c00000`** | `U-SIG-2 B16-B19`   | CRC (for the bits `U-SIG-1 B0` to `U-SIG-2 B15`) |
 | **`0xfc000000`** | `U-SIG-2 B20-B25`   | Tail (must be 0) |
