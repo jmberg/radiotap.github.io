@@ -1,6 +1,6 @@
 name: Radiotap
 markdown: kramdown
-baseurl: /
+baseurl: /radiotap.github.io
 defaults:
  -
   scope:
