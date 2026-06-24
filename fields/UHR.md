@@ -146,7 +146,7 @@ fields shall be in the following order:
 | **bits** | **meaning** |
 | **`0x0000000f`** | CRC2 (OFDMA only: for RU Allocation-B) |
 | **`0x000003f0`** | Tail2 (OFDMA only: after RU Allocation-B) |
-| **`0x00000400`** | Interference Mitigation (non-OFDMA only) |
+| **`0x00000400`** | Interference Mitigation (non-OFDMA only, 0=enabled, 1=disabled as in preamble) |
 | **`0x00001800`** | Disregard (non-OFDMA only) |
 | **`0x0000e000`** | Number Of Non-OFDMA Users (non-OFDMA only) |
 | **`0x000f0000`** | Common Encoding Block CRC (non-OFDMA only, B42-B45) |
